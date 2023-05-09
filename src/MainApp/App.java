@@ -1,5 +1,6 @@
 package MainApp;
 
+import java.io.IOException;
 import java.util.*;
 
 import user.*;
@@ -7,7 +8,7 @@ import exceptions.UserNotFoundException;
 // "front-end"
 public class App {
 
-	public static void main(String[] args) throws UserNotFoundException {
+	public static void main(String[] args) throws UserNotFoundException, IOException {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please enter your email: ");
 		

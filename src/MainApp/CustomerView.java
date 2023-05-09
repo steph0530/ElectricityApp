@@ -1,5 +1,6 @@
 package MainApp;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class CustomerView {
 
 	public static void main(String[] args) {
 	}
-	public static void showCustomerView(String email) throws UserNotFoundException {
+	public static void showCustomerView(String email) throws UserNotFoundException, IOException {
 		Customer user = new Customer(email);
 		Scanner in = new Scanner(System.in);
 		

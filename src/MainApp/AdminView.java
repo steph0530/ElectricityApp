@@ -2,6 +2,7 @@ package MainApp;
 
 import user.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
@@ -14,7 +15,7 @@ import utils.Messages;
 
 public class AdminView {
 
-	public static void main(String[] args) throws UserNotFoundException {
+	public static void main(String[] args) throws UserNotFoundException, IOException {
 		Admin user = new Admin();
 		System.out.println("You are on admin page:) Please choose an action: ");
 		Scanner in = new Scanner(System.in);

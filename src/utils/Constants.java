@@ -7,8 +7,6 @@ public class Constants {
 	
 	public static String[] customerOptions = {"Display bill of specific month", "Display all bills", "Logout", "Logout and signin again"};
 	
-	public static void main(String[] args) {
-
-	}
 
 }
+// enum

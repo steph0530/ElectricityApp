@@ -1,12 +1,14 @@
 package user;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable{
 	private String aptNumber;
 	private String street;
 	private String city;
 	private String country;
 	
-	public Address(String apt, String street, String city, String country) {
+	public Address(String apt, String street, String city, String country){
 		this.aptNumber = apt;
 		this.street = street;
 		this.city = city;

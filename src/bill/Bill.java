@@ -2,8 +2,9 @@ package bill;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.io.*;
 
-public class Bill {
+public class Bill implements Serializable{
 	private double amount;
 	private int month;
 	private String customerID;
@@ -23,11 +24,38 @@ public class Bill {
 		this.customerID = id;
 	}
 	
+	public static void setHighRate(double rate) {
+		highRate = rate;
+	}
+	
+	public static void setMidRate(double rate) {
+		midRate = rate;
+	}
+	
+	public static void setLowRate(double rate) {
+		lowRate = rate;
+	}
+	
+	@Override
+	public String toString() {
+		return this.month+": "+this.amount+ ","+this.date;
+	}
+	
 	public static Map<String, List<Bill>> getBillList(){
 		return billList;
 	}
 	
-	public int getMonth() {return this.month;}
+	public String getUUID() {
+		return this.customerID;
+	}
+	
+	public LocalDate getDate() {
+		return this.date;
+	}
+	
+	public int getMonth() {
+		return this.month;
+	}
 	
 	public double getAmount() {return this.amount;};
 	public double getAmount(double unit) {
@@ -48,22 +76,13 @@ public class Bill {
 		}
 		return amount;
 	}
-	
-	public static void setHighRate(double rate) {
-		highRate = rate;
-	}
-	
-	public static void setMidRate(double rate) {
-		midRate = rate;
-	}
-	
-	public static void setLowRate(double rate) {
-		lowRate = rate;
-	}
-	
-	@Override
-	public String toString() {
-		return this.month+": "+this.amount+ ","+this.date;
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		System.out.println("bill writeobj invoked");
+		oos.defaultWriteObject();
+		oos.writeDouble(getAmount());
+		oos.writeObject(getUUID());
+		oos.writeObject(this.getDate());
+		oos.writeInt(getMonth());
 	}
 	
 }

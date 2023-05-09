@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.io.*;
 
 import bill.Bill;
 import utils.HashPwd;
@@ -15,15 +16,18 @@ public class Admin extends User implements displayBill{
 		super();
 	}
 	
-	public Boolean generateBill(String email, int month, double usage) throws UserNotFoundException{
+	public Boolean generateBill(String email, int month, double usage) throws UserNotFoundException, IOException{
+		// user not found exception
 		if(User.getUserList().containsKey(email)) {
 			Bill bill = new Bill(usage, month, LocalDate.now(), User.getUserList().get(email).getUUID());
+			
 			if(Bill.getBillList().containsKey(email)) Bill.getBillList().get(email).add(bill);
 			else {
 				List<Bill> list = new ArrayList<>();
 				list.add(bill);
 				Bill.getBillList().put(email, list);
 			}
+			serializeBill(bill);
 			return true;
 		}else {
 			throw new UserNotFoundException();
@@ -55,14 +59,14 @@ public class Admin extends User implements displayBill{
 	}
 
 	
-	public Boolean addUser(String name, String email, String password, Address address) throws UserAlreadyExistsException{
+	public Boolean addUser(String name, String email, String password, Address address) throws UserAlreadyExistsException, IOException{
 		if(!User.getUserList().containsKey(email)) {
 			User newCustomer = new User(name, address, password);
 	 		User.getUserList().put(email, newCustomer);
+	 		serializeUser(newCustomer);
 	 		return true;
 		}else
 			throw new UserAlreadyExistsException();
-
 	}
 	
 	public void setHighRate(double rate) {
@@ -81,4 +85,18 @@ public class Admin extends User implements displayBill{
 		return User.getUserList().entrySet().stream().filter(user-> user.getValue().getIsAdmin()==false).collect(Collectors.toList());
 	}
 	
+	private static void serializeUser(User user) throws IOException {
+		FileOutputStream fos = new FileOutputStream("Users.dat", true);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(user);
+		System.out.println("user serialized");
+		
+	}
+	
+	private static void serializeBill(Bill bill) throws IOException {
+		FileOutputStream fos = new FileOutputStream("Bills.dat", true);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(bill);
+		System.out.println("bill serialized");
+	}
 }
